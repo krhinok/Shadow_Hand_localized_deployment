@@ -1,0 +1,28 @@
+<!--
+ Copyright 2022 Shadow Robot Company Ltd.
+ This program is free software: you can redistribute it and/or modify it
+ under the terms of the GNU General Public License as published by the Free
+ Software Foundation version 2 of the License.
+ This program is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ more details.
+ You should have received a copy of the GNU General Public License along
+ with this program. If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<launch>
+    <arg name="test_duration" default="20.0" />
+    <arg name="total_control_loop_overruns_threshold" default="1" />
+    <arg name="max_recent_control_loop_overruns_threshold" default="1" />
+    <arg name="total_invalid_packets_threshold" default="1" />
+    <arg name="max_invalid_packets_recent_threshold" default="1" />
+
+    <node name="performance_test" pkg="sr_utilities_common" type="performance_test.py" output="screen">
+        <param name="test_duration" value="$(arg test_duration)" />
+        <param name="total_control_loop_overruns_threshold" value="$(arg total_control_loop_overruns_threshold)" />
+        <param name="max_recent_control_loop_overruns_threshold" value="$(arg max_recent_control_loop_overruns_threshold)" />
+        <param name="total_invalid_packets_threshold" value="$(arg total_invalid_packets_threshold)" />
+        <param name="max_invalid_packets_recent_threshold" value="$(arg max_invalid_packets_recent_threshold)" />
+    </node>
+</launch>

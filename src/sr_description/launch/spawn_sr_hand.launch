@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Load the URDF model into the parameter server -->
+    <param name="robot_description" command="cat $(find sr_description)/urdf/sr_hand.urdf" />
+
+    <!-- Start Gazebo -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
+
+    <!-- Spawn the robot model in Gazebo -->
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model sr_hand" />
+
+    <!-- Load controllers -->
+    <rosparam file="$(find sr_description)/config/rh_controller_gazebo.yaml" command="load" />
+    
+    <!-- Start the controller manager -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" args="sh_rh_ffj0_position_controller sh_rh_ffj3_position_controller sh_rh_ffj4_position_controller sh_rh_lfj0_position_controller sh_rh_lfj3_position_controller sh_rh_lfj4_position_controller sh_rh_lfj5_position_controller sh_rh_mfj0_position_controller sh_rh_mfj3_position_controller sh_rh_mfj4_position_controller sh_rh_rfj0_position_controller sh_rh_rfj3_position_controller sh_rh_rfj4_position_controller sh_rh_thj1_position_controller sh_rh_thj2_position_controller sh_rh_thj3_position_controller sh_rh_thj4_position_controller sh_rh_thj5_position_controller sh_rh_wrj1_position_controller sh_rh_wrj2_position_controller"/>
+</launch>

@@ -1,0 +1,63 @@
+<!--
+ Copyright 2022 Shadow Robot Company Ltd.
+ This program is free software: you can redistribute it and/or modify it
+ under the terms of the GNU General Public License as published by the Free
+ Software Foundation version 2 of the License.
+ This program is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ more details.
+ You should have received a copy of the GNU General Public License along
+ with this program. If not, see <http://www.gnu.org/licenses/>.
+-->
+<package>
+    <name>sr_utilities</name>
+    <version>1.4.0</version>
+    <description>sr_utilities contains different useful header libraries (math libraries, etc...).</description>
+    <maintainer email="software@shadowrobot.com">Shadow Robot's software team</maintainer>
+
+    <license>GPL</license>
+
+    <url type="website">http://ros.org/wiki/sr_utilities</url>
+    <url type="repository">https://github.com/shadow-robot/sr-ros-interface</url>
+    <url type="bugtracker">https://github.com/shadow-robot/sr-ros-interface/issues</url>
+
+    <author>Ugo Cupcic</author>
+
+    <!-- Dependencies which this package needs to build itself. -->
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <!-- Dependencies needed to compile this package. -->
+    <build_depend>eigen</build_depend>
+    <build_depend>rostest</build_depend>
+    <build_depend>sensor_msgs</build_depend>
+    <build_depend>sr_robot_msgs</build_depend>
+    <build_depend>rospy</build_depend>
+    <build_depend>roscpp</build_depend>
+    <build_depend>tf</build_depend>
+    <build_depend>urdf</build_depend>
+    <build_depend>std_msgs</build_depend>
+    <build_depend>message_generation</build_depend>
+    <build_depend>message_runtime</build_depend>
+    <build_depend>sr_utilities_common</build_depend>
+
+    <!-- Dependencies needed after this package is compiled. -->
+    <run_depend>sensor_msgs</run_depend>
+    <run_depend>sr_robot_msgs</run_depend>
+    <run_depend>rospy</run_depend>
+    <run_depend>roscpp</run_depend>
+    <run_depend>tf</run_depend>
+    <run_depend>rostest</run_depend>
+    <run_depend>urdf</run_depend>
+    <run_depend>urdfdom_py</run_depend>
+    <run_depend>std_msgs</run_depend>
+    <run_depend>message_runtime</run_depend>
+    <run_depend>sr_utilities_common</run_depend>
+
+    <!-- Dependencies needed only for running tests. -->
+    <test_depend>gtest</test_depend>
+    <export>
+        <cpp lflags="-L${prefix}/lib -lsr_calibration" cflags="-I${prefix}/include"/>
+    </export>
+
+</package>

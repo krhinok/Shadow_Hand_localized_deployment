@@ -1,0 +1,71 @@
+<!--
+ Copyright 2022 Shadow Robot Company Ltd.
+ This program is free software: you can redistribute it and/or modify it
+ under the terms of the GNU General Public License as published by the Free
+ Software Foundation version 2 of the License.
+ This program is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ more details.
+ You should have received a copy of the GNU General Public License along
+ with this program. If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<launch>
+  <arg name="split_logs_by_duration" default="true"/>
+  <arg name="log_split_duration" default="10m"/>
+  <arg name="node_name" default="record"/>
+  <arg name="split_logs_by_size" default="false"/>
+  <arg name="log_split_size" default="1024"/>
+
+  <arg name="log_max_splits" default="6"/>
+  <arg name="log_directory" default="."/>
+  <arg name="log_bag_prefix" default="sr_log"/>
+
+  <arg name="core_dump_path" default="/home/user/.ros/log/core_dumps"/>
+  <arg name="desired_folder_size" default="1024000000"/>
+
+  <arg name="log_location" value="$(arg log_directory)/$(arg log_bag_prefix)"/>
+
+  <arg name="clear_old_sessions" default="true"/>
+
+  <arg name="log_topics" default='-e ".*(controller|debug_etherCAT_data).*" /joint_states /tf /tf_static /rosout /diagnostics /mechanism_statistics /journalctl_log'/>
+
+  <arg name="save_params" default="true"/>
+  <arg name="diff_ws" default="true"/>
+  <arg name="dump_limit" default="true"/>
+
+  <arg name="journalctl_log" default="True"/>
+
+  <group unless="$(arg split_logs_by_size)">
+    <node  if="$(arg split_logs_by_duration)" pkg="rosbag" type="record"
+           args='-o $(arg log_location) --lz4 --split --max-splits=$(arg log_max_splits) --duration $(arg log_split_duration) $(arg log_topics)' name="$(arg node_name)"/>
+  </group>
+
+  <group unless="$(arg split_logs_by_duration)">
+    <node if="$(arg split_logs_by_size)" pkg="rosbag" type="record"
+          args='-o $(arg log_location) --lz4 --split --max-splits=$(arg log_max_splits) --size $(arg log_split_size) $(arg log_topics) ' name="$(arg node_name)"/>
+  </group>
+
+  <node if="$(arg clear_old_sessions)" pkg="sr_logging_common" type="bag_rotate.py" name="$(anon bag_rotate)">
+    <param name="bag_files_num" value="$(arg log_max_splits)"/>
+    <param name="bag_files_path" value="$(arg log_directory)"/>
+    <param name="bag_files_prefix" value="$(arg log_bag_prefix)"/>
+  </node>
+
+  <node if="$(arg save_params)" pkg="sr_logging_common" type="record_params.py" name="$(anon param_dump)">
+    <param name="log_directory" value="$(arg log_directory)" />
+  </node>
+
+  <node if="$(arg diff_ws)" pkg="sr_logging_common" type="ws_diff.py" name="$(anon ws_diff)">
+    <param name="log_directory" value="$(arg log_directory)"/>
+  </node>
+  
+  <node if="$(arg dump_limit)" pkg="sr_logging_common" type="core_dump_limit.py" name="$(anon core_dump_limit)">
+    <param name="core_dump_path" value="$(arg core_dump_path)"/>
+    <param name="desired_folder_size" value="$(arg desired_folder_size)"/>
+  </node>
+
+  <node if="$(arg journalctl_log)" pkg="sr_logging_common" type="journalctl_pub.py" name="$(anon journalctl_pub)"/>
+
+</launch>

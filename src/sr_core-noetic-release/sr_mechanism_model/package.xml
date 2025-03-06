@@ -1,0 +1,50 @@
+<!--
+ Copyright 2022 Shadow Robot Company Ltd.
+ This program is free software: you can redistribute it and/or modify it
+ under the terms of the GNU General Public License as published by the Free
+ Software Foundation version 2 of the License.
+ This program is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ more details.
+ You should have received a copy of the GNU General Public License along
+ with this program. If not, see <http://www.gnu.org/licenses/>.
+-->
+<package>
+    <name>sr_mechanism_model</name>
+    <version>1.4.0</version>
+    <description>sr_mechanism_model contains the transmissions used in the robot model. We needed specific
+        transmission as we're using our own actuator. We also needed to take care of the joint 0s
+        which combine the distal and middle phalanges.
+    </description>
+    <maintainer email="software@shadowrobot.com">Shadow Robot's software team</maintainer>
+
+    <license>GPL</license>
+
+    <url type="website">http://ros.org/wiki/sr_mechanism_model</url>
+    <url type="repository">https://github.com/shadow-robot/sr-ros-interface</url>
+    <url type="bugtracker">https://github.com/shadow-robot/sr-ros-interface/issues</url>
+
+    <author>Ugo Cupcic</author>
+
+    <!-- Dependencies which this package needs to build itself. -->
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <!-- Dependencies needed to compile this package. -->
+    <build_depend>roscpp</build_depend>
+    <build_depend>sr_hardware_interface</build_depend>
+    <build_depend>cmake_modules</build_depend>
+    <build_depend>tinyxml</build_depend>
+    <build_depend>ros_ethercat_model</build_depend>
+
+    <!-- Dependencies needed after this package is compiled. -->
+    <run_depend>roscpp</run_depend>
+    <run_depend>sr_hardware_interface</run_depend>
+    <run_depend>tinyxml</run_depend>
+    <run_depend>ros_ethercat_model</run_depend>
+
+    <export>
+        <ros_ethercat_model plugin="${prefix}/transmission_plugin.xml"/>
+    </export>
+
+</package>
