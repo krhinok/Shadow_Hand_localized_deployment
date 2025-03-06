@@ -22,7 +22,7 @@ To simplify the setup, my `sr_description` package only contains the following f
 - Along with the necessary `CMakeLists.txt` and `package.xml` files.  
 
 The `meshes` folder is directly taken from the original `sr_description` package.  
-The `urdf` folder contains the `sr_hand.urdf` file, which is generated from `sr_description/robots/sr_hand.urdf.xacro` using:  
+The `urdf` folder contains the `sr_hand.urdf` file, which is generated from `sr_description/robots/sr_hand.urdf.xacro` . urdf has to be modified (see uploaded file). using:  
 ```bash
 rosrun xacro xacro your_file.xacro > your_file.urdf
 ```  
